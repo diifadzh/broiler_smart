@@ -1,29 +1,39 @@
 <?php
 
+namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Charts\MonitoringDataChart;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
+// Route Auth
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/auth/login', [AuthController::class, 'login']);
 Route::post('/auth/logout', [AuthController::class, 'logout']);
 
+// Route Dashboard
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('content.dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index']);
+    Route::middleware('role:admin')->prefix('manage')->group(function () {
+        Route::resource('users', UserController::class);
+        Route::resource('device', DeviceController::class);
     });
 });
 
-Route::get('/user', function () {
-    return view('content.dashboard.user');
-});
+//
+// Route::get('/dashboard', [DashboardController::class, 'index']);
+// Route::get('/dashboard', [DashboardController::class, 'index_dashboard'])->name('dashboard.index');
 
-Route::get('/device', function () {
-    return view('content.dashboard.device');
-});
+// Route::get('/user', function () {
+//     return view('content.manage.users.index');
+// });
+
+// Route::get('/device', function () {
+//     return view('content.manage.devices.index');
+// });
 
 Route::get('/create', function () {
     return view('content.management.users.create');
@@ -31,4 +41,8 @@ Route::get('/create', function () {
 
 Route::get('/heater', function () {
     return view('content.config.heater');
+});
+
+Route::get('/lamp', function () {
+    return view('content.config.lamp');
 });

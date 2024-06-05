@@ -28,6 +28,8 @@ class MainController extends Controller
         ], 200);
     }
 
+    // [GET] data from sensor
+
     // [POST] data from sensor
     public function post_data(Request $request, $deviceId)
     {

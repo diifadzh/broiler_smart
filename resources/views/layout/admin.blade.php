@@ -9,6 +9,7 @@
                 @yield('user')
                 @yield('create')
                 @yield('heater')
+                @yield('lamp')
                 @yield('device')
             </div>
         </div>

@@ -2,7 +2,7 @@
     <!-- Sidebar scroll-->
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
-            <a href="./index" class="text-nowrap logo-img">
+            <a class="text-nowrap logo-img">
                 <img src="{{ asset('images/logos/logo1.png') }}" alt="" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
@@ -17,7 +17,7 @@
                     <span class="hide-menu">Home</span>
                 </li>
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="./dashboard" aria-expanded="false">
+                    <a class="sidebar-link" href="{{ url('/dashboard') }}" aria-expanded="false">
                         <iconify-icon icon="solar:widget-add-line-duotone"></iconify-icon>
                         <span class="hide-menu">Dashboard</span>
                     </a>
@@ -25,40 +25,45 @@
                 <li>
                     <span class="sidebar-divider lg"></span>
                 </li>
-                <li class="nav-small-cap">
-                    <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                    <span class="hide-menu"> Konfiguration Menu</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="./heater" aria-expanded="false">
-                        <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
-                        <span class="hide-menu">Heater</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="./lamp" aria-expanded="false">
-                        <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
-                        <span class="hide-menu">Lamp</span>
-                    </a>
-                </li>
-                <span class="sidebar-divider lg"></span>
-                </li>
-                <li class="nav-small-cap">
-                    <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
-                    <span class="hide-menu">Admin Menu</span>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="./user" aria-expanded="false">
-                        <iconify-icon icon="solar:login-3-line-duotone"></iconify-icon>
-                        <span class="hide-menu">Manage Users</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="./device" aria-expanded="false">
-                        <iconify-icon icon="solar:user-plus-rounded-line-duotone"></iconify-icon>
-                        <span class="hide-menu">Manage Devices</span>
-                    </a>
-                </li>
+                @if (Auth::user()->hasRole('farmer'))
+                    <li class="nav-small-cap">
+                        <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
+                        <span class="hide-menu"> Konfiguration Menu</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ url('/heater') }}" aria-expanded="false">
+                            <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
+                            <span class="hide-menu">Heater</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ url('/lamp') }}" aria-expanded="false">
+                            <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
+                            <span class="hide-menu">Lamp</span>
+                        </a>
+                    </li>
+                    <li>
+                        <span class="sidebar-divider lg"></span>
+                    </li>
+                @endif
+                @if (Auth::user()->hasRole('admin'))
+                    <li class="nav-small-cap">
+                        <iconify-icon icon="solar:menu-dots-linear" class="nav-small-cap-icon fs-4"></iconify-icon>
+                        <span class="hide-menu">Admin Menu</span>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ url('/users') }}" aria-expanded="false">
+                            <iconify-icon icon="solar:login-3-line-duotone"></iconify-icon>
+                            <span class="hide-menu">Manage Users</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="{{ url('/device') }}" aria-expanded="false">
+                            <iconify-icon icon="solar:user-plus-rounded-line-duotone"></iconify-icon>
+                            <span class="hide-menu">Manage Devices</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
