@@ -9,8 +9,8 @@ class UserController extends Controller
 {
     public function index()
     {
-        // $users = User::all();
-        // return view('content.manage.users.index', compact('users'));
+        $users = User::all();
+        return view('content.manage.users.index', compact('users'));
     }
 
     public function create()

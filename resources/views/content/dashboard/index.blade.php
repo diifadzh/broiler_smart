@@ -302,7 +302,7 @@
         $(function() {
             var chart = {
                 series: [{
-                        name: "2024",
+                        name: "Temperature",
                         data: [
                             @foreach ($dataSensor as $item)
                                 {{ $item->temperature . ',' }}
@@ -310,23 +310,46 @@
                         ],
                     },
                     {
-                        name: "2023",
-                        data: [-2.8, -1.1, -2.5, -1.5, -2.3, -1.9, -1, -2.1, -1.3],
+                        name: "Humidity",
+                        data: [
+                            @foreach ($dataSensor as $item)
+                                {{ $item->humidity . ',' }}
+                            @endforeach
+                        ],
                     },
-
+                    {
+                        name: "Light Intensity",
+                        data: [
+                            @foreach ($dataSensor as $item)
+                                {{ $item->light_intensity . ',' }}
+                            @endforeach
+                        ],
+                    },
                 ],
+                // chart: {
+                //     toolbar: {
+                //         show: false,
+                //     },
+                //     type: "bar",
+                //     fontFamily: "inherit",
+                //     foreColor: "#adb0bb",
+                //     height: 270,
+                //     stacked: true,
+                //     offsetX: -15,
+                // },
                 chart: {
                     toolbar: {
-                        show: false,
+                        show: false
                     },
-                    type: "bar",
+                    type: "line", // Change to "line" for a line chart
                     fontFamily: "inherit",
                     foreColor: "#adb0bb",
                     height: 270,
-                    stacked: true,
-                    offsetX: -15,
+                    stacked: false, // Set to false for separate lines
+                    offsetX: -15
                 },
-                colors: ["var(--bs-primary)", "var(--bs-danger)"],
+
+                colors: ["var(--bs-danger)", "var(--bs-secondary)", "var(--bs-warning)"],
                 plotOptions: {
                     bar: {
                         horizontal: false,

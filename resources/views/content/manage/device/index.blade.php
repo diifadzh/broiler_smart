@@ -16,9 +16,9 @@
                     <button class="btn btn-outline-primary" type="button" id="button-addon2">Search</button>
                 </div> --}}
                 <div class="table-responsive" data-simplebar>
-                    @php
+                    {{-- @php
                         $i = 1;
-                    @endphp
+                    @endphp --}}
                     <table class="table text-nowrap align-middle table-custom mb-0">
                         <thead>
                             <tr>
@@ -29,26 +29,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($devices as $device)
-                                <tr>
-                                    <th scope="row" class="text-dark fw-normal">{{ $i }}</th>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-6">
-                                            <div>
-                                                <h6 class="mb-0">A001</h6>
-                                            </div>
+                            {{-- @foreach ($devices as $device) --}}
+                            <tr>
+                                <th scope="row" class="text-dark fw-normal"></th>
+                                <td>
+                                    <div class="d-flex align-items-center gap-6">
+                                        <div>
+                                            <h6 class="mb-0"></h6>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <span class="text-dark">Kandang Ayam 1-7 hari</span>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-sm btn-outline-primary">Edit</button>
-                                            <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                        </div>
-                                    </td>
-                                </tr>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="text-dark"></span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-2">
+                                        <button class="btn btn-sm btn-outline-primary">Edit</button>
+                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            {{-- @endforeach --}}
                         </tbody>
                     </table>
                 </div>

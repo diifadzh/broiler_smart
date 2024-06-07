@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -23,15 +24,40 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $users = new User();
-        $users->name = $request->name;
-        $users->email = $request->email;
-        $users->password = $request->password;
-        $users->avatar = $request->avatar;
-        $users->save();
-        return response()->json([
-            "message" => "User telah ditambahkan."
-        ], 201);
+        // try {
+        //     $request->validate([
+        //         'name' => 'required',
+        //         'email' => 'required|email',
+        //         'password' => 'required|min:8|confirmed',
+        //     ]);
+
+        //     $user = User::create([
+        //         'name' => $request->name,
+        //         'email' => $request->email,
+        //         'password' => Hash::make($request->password)
+        //     ]);
+
+        //     $message = 'Add new user success';
+        //     $success = true;
+        //     $data = addResponseData($user, $message, $success);
+        //     return response()->json($data, 201);
+        // } catch (\Exception $e) {
+        //     $result = [
+        //         'message' => $e->getMessage(),
+        //         'success' => false
+        //     ];
+        //     return response()->json($result, 500);
+        // }
+
+        // $users = new User();
+        // $users->name = $request->name;
+        // $users->email = $request->email;
+        // $users->password = $request->password;
+        // $users->avatar = $request->avatar;
+        // $users->save();
+        // return response()->json([
+        //     "message" => "User telah ditambahkan."
+        // ], 201);
     }
 
     public function show(string $id)

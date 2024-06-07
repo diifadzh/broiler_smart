@@ -19,16 +19,67 @@ class DeviceController extends Controller
         //
     }
 
-    public function store(Request $request)
+    // [POST] data from device
+    public function post_device(Request $request, $userId)
     {
-        $device = new Device;
-        $device->user_id = $request->user_id;
-        $device->name = $request->name;
-        $device->save();
-        return response()->json([
-            "message" => "Device telah ditambahkan."
-        ], 201);
+        try {
+            $validated = $request->validate([
+                'temperature' => ['decimal:1'],
+                'humidity' => ['decimal:1'],
+                'light_intensity' => ['decimal:1']
+            ]);
+            $dataSensor = Device::create([
+                'user_id' => $userId,
+                'temperature' => $request->temperature,
+                'humidity' => $request->humidity,
+                'light_intensity' => $request->light_intensity,
+            ]);
+            return response()->json([
+                "status" => "Success",
+                "message" => "Data successfuly created",
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                "status" => "Error",
+                "message" => "Data error",
+                "error" => $e->getMessage(),
+            ], 400);
+        }
     }
+
+    // public function store(Request $request $userId)
+    // {
+    //     try {
+    //         $validated = $request->validate([
+    //             'temperature' => ['decimal:1'],
+    //             'humidity' => ['decimal:1'],
+    //             'light_intensity' => ['decimal:1']
+    //         ]);
+    //         $dataSensor = Device::create([
+    //             'device_id' => $deviceId,
+    //             'temperature' => $request->temperature,
+    //             'humidity' => $request->humidity,
+    //             'light_intensity' => $request->light_intensity,
+    //         ]);
+    //         return response()->json([
+    //             "status" => "Success",
+    //             "message" => "Data successfuly created",
+    //         ], 201);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             "status" => "Error",
+    //             "message" => "Data error",
+    //             "error" => $e->getMessage(),
+    //         ], 400);
+    //     }
+    //     // $device = new Device;
+    //     // $device->user_id = $request->user_id;
+    //     // $device->name = $request->name;
+    //     // $device->save();
+    //     // return response()->json([
+    //     //     "message" => "Device telah ditambahkan."
+    //     // ], 201);
+    // }
 
     public function show(string $id)
     {

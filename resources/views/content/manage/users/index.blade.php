@@ -35,12 +35,12 @@
                                     <td>
                                         <div class="d-flex align-items-center gap-6">
                                             <div>
-                                                <h6 class="mb-0">Admin</h6>
+                                                <h6 class="mb-0">{{ $item->name }}</h6>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="text-dark">admin@email.test</span>
+                                        <span class="text-dark">{{ $item->email }}</span>
                                     </td>
                                     <td>
                                         <div class="d-flex gap-2">
@@ -49,6 +49,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

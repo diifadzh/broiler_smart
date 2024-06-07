@@ -18,7 +18,7 @@ Route::post('/auth/logout', [AuthController::class, 'logout']);
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::middleware('role:admin')->prefix('manage')->group(function () {
-        Route::resource('users', UserController::class);
+        Route::resource('users', UserController::class,);
         Route::resource('device', DeviceController::class);
     });
 });
@@ -30,10 +30,12 @@ Route::middleware('auth')->group(function () {
 // Route::get('/user', function () {
 //     return view('content.manage.users.index');
 // });
+Route::get('/users', [UserController::class, 'index']);
 
 // Route::get('/device', function () {
 //     return view('content.manage.devices.index');
 // });
+Route::get('/device', [DeviceController::class, 'index']);
 
 Route::get('/create', function () {
     return view('content.management.users.create');
