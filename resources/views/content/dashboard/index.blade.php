@@ -14,8 +14,9 @@
                             </span>
                             <h6 class="mb-0 fs-4">Temperature</h6>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end mb-6">
-                            <h6 class="mb-0 fw-medium"><span id="temp-value">0</span> °C</h6>
+                        <div class="d-flex align-items-center justify-content-center mb-6">
+                            <h5 class="mb-0 fw-medium text-center large-temp-value"><span
+                                    id="temp-value">{{ $dataSensor->first()->temperature ?? 0 }}</span> °C</h5>
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
@@ -35,8 +36,9 @@
                             </span>
                             <h6 class="mb-0 fs-4">Humidity</h6>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end mb-6">
-                            <h6 class="mb-0 fw-medium"><span id="humi-value">0</span> %</h6>
+                        <div class="d-flex align-items-center justify-content-center mb-6">
+                            <h5 class="mb-0 fw-medium text-center large-temp-value"><span
+                                    id="humi-value">{{ $dataSensor->first()->humidity ?? 0 }}</span> %</h5>
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
@@ -56,12 +58,14 @@
                             </span>
                             <h6 class="mb-0 fs-4">Light Intensity</h6>
                         </div>
-                        <div class="d-flex align-items-center justify-content-end mb-6">
-                            <h6 class="mb-0 fw-medium"> <span id="light-value">0</span> lux</h6>
+                        <div class="d-flex align-items-center justify-content-center mb-6">
+                            <h5 class="mb-0 fw-medium text-center large-temp-value"> <span
+                                    id="light-value">{{ $dataSensor->first()->light_intensity ?? 0 }}</span> lux</h5>
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                            <div class="progress-bar bg-warning" style="width: 83%"></div>
+                            <div class="progress-bar bg-warning"
+                                style="width: {{ $dataSensor->first()->light_intensity ?? 0 }}%"></div>
                         </div>
                     </div>
                 </div>
@@ -72,8 +76,8 @@
                         <div class="card-body">
                             <div class="d-flex align-items-center gap-6">
                                 <span
-                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-primary-subtle">
-                                    <span class="fs-6 text-primary">ON</span>
+                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-success-subtle">
+                                    <span class="fs-6 text-success">ON</span>
                                 </span>
                                 <h6 class="mb-0 fs-4">Heater Status</h6>
                             </div>

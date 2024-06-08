@@ -32,17 +32,6 @@ class MainController extends Controller
     public function get_data(Request $request, $deviceId)
     {
         return DataSensor::all();
-        // $dataSensor =
-        // $message = 'Get all devices success';
-        // $success = true;
-        // $dataSensor = getResponseData($dataSensor, $message, $success);
-        // return response()->json($dataSensor, 200);
-
-        // $dataSensor = DB::table('temperature')->orderBy('id', 'desc')->get();
-        // return response()->json(
-        //     ["status" => 200, "data" => $dataSensor],
-        //     200
-        // );
     }
 
     // [POST] data from sensor

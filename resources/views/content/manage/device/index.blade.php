@@ -29,7 +29,7 @@
                                 <td>{{ $item->name }}</td>
                                 <td class="d-flex">
                                     <a href="{{ route('manage.devices.edit', $item->id) }}"
-                                        class="btn btn-secondary me-2">Edit</a>
+                                        class="btn btn-primary me-2">Edit</a>
                                     <a href="{{ route('manage.devices.destroy', $item->id) }}" class="btn btn-danger"
                                         data-confirm-delete="true">Delete</a>
                                 </td>

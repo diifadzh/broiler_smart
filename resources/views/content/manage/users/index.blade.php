@@ -30,7 +30,7 @@
                                 <td>{{ $item->email }}</td>
                                 <td class="d-flex">
                                     <a href="{{ route('manage.users.edit', $item->id) }}"
-                                        class="btn btn-secondary me-2">Edit</a>
+                                        class="btn btn-primary me-2">Edit</a>
                                     <a href="{{ route('manage.users.destroy', $item->id) }}" class="btn btn-danger"
                                         data-confirm-delete="true">Delete</a>
                                 </td>

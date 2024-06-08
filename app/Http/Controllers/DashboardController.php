@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DataSensor;
-use App\Charts\MonitoringDataChart;
 
 class DashboardController extends Controller
 {
