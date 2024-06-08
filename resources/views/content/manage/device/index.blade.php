@@ -1,64 +1,43 @@
-@extends('layout.app')
-@section('title', 'Devices')
 @extends('layout.admin')
 
-@section('device')
+@section('title', 'Manage Device | Broiler Guard')
+
+@section('content')
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="card-title fw-semibold mb-0">Manage Devices</h5>
-                <a href="./" class="btn btn-primary">Create Device</a>
-            </div>
-            <div class="card-body p-4">
-                {{-- <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search by Product Number"
-                        aria-label="Search by product number" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-primary" type="button" id="button-addon2">Search</button>
-                </div> --}}
-                <div class="table-responsive" data-simplebar>
-                    {{-- @php
-                        $i = 1;
-                    @endphp --}}
-                    <table class="table text-nowrap align-middle table-custom mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col" class="text-dark fw-normal">Number</th>
-                                <th scope="col" class="text-dark fw-normal">ID</th>
-                                <th scope="col" class="text-dark fw-normal">Name</th>
-                                <th scope="col" class="text-dark fw-normal">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {{-- @foreach ($devices as $device) --}}
-                            <tr>
-                                <th scope="row" class="text-dark fw-normal"></th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-6">
-                                        <div>
-                                            <h6 class="mb-0"></h6>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <span class="text-dark"></span>
-                                </td>
-                                <td>
-                                    <div class="d-flex gap-2">
-                                        <button class="btn btn-sm btn-outline-primary">Edit</button>
-                                        <button class="btn btn-sm btn-outline-danger">Delete</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            {{-- @endforeach --}}
-                        </tbody>
-                    </table>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h5 class="card-title fw-semibold mb-4">Manage Devices</h5>
+                    <a href="{{ route('manage.devices.create') }}" class="btn btn-primary">Add Devices</a>
                 </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Device ID</th>
+                            <th scope="col">Owned by</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($devices as $item)
+                            <tr>
+                                <th>
+                                    <strong>{{ $item->id }}</strong>
+                                </th>
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td class="d-flex">
+                                    <a href="{{ route('manage.devices.edit', $item->id) }}"
+                                        class="btn btn-secondary me-2">Edit</a>
+                                    <a href="{{ route('manage.devices.destroy', $item->id) }}" class="btn btn-danger"
+                                        data-confirm-delete="true">Delete</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 @endsection
-
-@push('js')
-    <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('js/dashboard.js') }}"></script>
-@endpush()

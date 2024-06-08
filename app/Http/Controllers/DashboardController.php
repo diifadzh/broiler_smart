@@ -13,9 +13,4 @@ class DashboardController extends Controller
         $dataSensor = DataSensor::orderBy('created_at', 'desc')->get();
         return view('content.dashboard.index', compact('dataSensor'));
     }
-
-    // public function index_dashboard(MonitoringDataChart $chart)
-    // {
-    //     $dataSensor['chart'] = $chart->build();
-    // }
 }

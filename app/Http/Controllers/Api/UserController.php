@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+use Dotenv\Validator;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -14,49 +15,23 @@ class UserController extends Controller
         return User::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
     }
 
     public function store(Request $request)
     {
-        // try {
-        //     $request->validate([
-        //         'name' => 'required',
-        //         'email' => 'required|email',
-        //         'password' => 'required|min:8|confirmed',
-        //     ]);
+        // $validatedData = $request->validate([
+        //     'name' => 'required|max:255',
+        //     'email' => 'required|email|unique:users',
+        //     'password' => 'required|min:6|confirmed',
+        // ]);
 
-        //     $user = User::create([
-        //         'name' => $request->name,
-        //         'email' => $request->email,
-        //         'password' => Hash::make($request->password)
-        //     ]);
+        // $user = User::create($validatedData);
 
-        //     $message = 'Add new user success';
-        //     $success = true;
-        //     $data = addResponseData($user, $message, $success);
-        //     return response()->json($data, 201);
-        // } catch (\Exception $e) {
-        //     $result = [
-        //         'message' => $e->getMessage(),
-        //         'success' => false
-        //     ];
-        //     return response()->json($result, 500);
-        // }
-
-        // $users = new User();
-        // $users->name = $request->name;
-        // $users->email = $request->email;
-        // $users->password = $request->password;
-        // $users->avatar = $request->avatar;
-        // $users->save();
         // return response()->json([
-        //     "message" => "User telah ditambahkan."
+        //     'message' => 'User created successfully',
+        //     'data' => $user
         // ], 201);
     }
 

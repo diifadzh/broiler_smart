@@ -1,23 +1,21 @@
-@extends('layout.app')
-@section('title', 'Dashboard')
 @extends('layout.admin')
+
+@section('title', 'Dashboard | Broiler Guard')
 
 @section('content')
     <div class="container-fluid">
-        <!--  Row 1 -->
-        <div class="row">
-            <!--  Divclass 1 -->
+        <div class="row mb-4">
             <div class="col-lg-3">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center gap-6 mb-4 pb-3">
                             <span class="round-48 d-flex align-items-center justify-content-center rounded bg-danger-subtle">
-                                <iconify-icon icon="solar:temperature-outline" class="fs-6 text-danger"></iconify-icon>
+                                <iconify-icon icon="solar:temperature-outline" class="fs-6 text-danger"> </iconify-icon>
                             </span>
                             <h6 class="mb-0 fs-4">Temperature</h6>
                         </div>
-                        <div class="d-flex align-items-center justify-content-center mb-6">
-                            <h4 class="mb-0 fw-medium text-dark">{{ $dataSensor->first()->temperature ?? 0 }} °C</h4>
+                        <div class="d-flex align-items-center justify-content-end mb-6">
+                            <h6 class="mb-0 fw-medium"><span id="temp-value">0</span> °C</h6>
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
@@ -27,95 +25,74 @@
                     </div>
                 </div>
             </div>
-            <!--  Divclass 2 -->
             <div class="col-lg-3">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center gap-6 mb-4 pb-3">
-                                <span
-                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
-                                    <iconify-icon icon="solar:football-outline" class="fs-6 text-secondary">
-                                    </iconify-icon>
-                                </span>
-                                <h6 class="mb-0 fs-4">Humidity</h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-6">
-                                <h4 class="mb-0 fw-medium text-dark">{{ $dataSensor->first()->humidity ?? 0 }} %</h4>
-                            </div>
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                <div class="progress-bar bg-secondary"
-                                    style="width: {{ $dataSensor->first()->humidity ?? 0 }}%"></div>
-                            </div>
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-6 mb-4 pb-3">
+                            <span
+                                class="round-48 d-flex align-items-center justify-content-center rounded bg-secondary-subtle">
+                                <iconify-icon icon="solar:snowflake-outline" class="fs-6 text-secondary"> </iconify-icon>
+                            </span>
+                            <h6 class="mb-0 fs-4">Humidity</h6>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-end mb-6">
+                            <h6 class="mb-0 fw-medium"><span id="humi-value">0</span> %</h6>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
+                            <div class="progress-bar bg-secondary"
+                                style="width: {{ $dataSensor->first()->humidity ?? 0 }}%"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--  Divclass 3 -->
             <div class="col-lg-3">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center gap-6 mb-4 pb-3">
-                                <span
-                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-warning-subtle">
-                                    <iconify-icon icon="solar:sun-outline" class="fs-6 text-warning">
-                                    </iconify-icon>
-                                </span>
-                                <h6 class="mb-0 fs-4">Light Intensity</h6>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-center mb-6">
-                                <h4 class="mb-0 fw-medium">{{ $dataSensor->first()->light_intensity ?? 0 }} Lux</h4>
-                            </div>
-                            <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
-                                aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                                <div class="progress-bar bg-warning"
-                                    style="width: {{ $dataSensor->first()->light_intensity ?? 0 }}%"></div>
-                            </div>
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center gap-6 mb-4 pb-3">
+                            <span
+                                class="round-48 d-flex align-items-center justify-content-center rounded bg-warning-subtle">
+                                <iconify-icon icon="solar:lightbulb-outline" class="fs-6 text-warning"> </iconify-icon>
+                            </span>
+                            <h6 class="mb-0 fs-4">Light Intensity</h6>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-end mb-6">
+                            <h6 class="mb-0 fw-medium"> <span id="light-value">0</span> lux</h6>
+                        </div>
+                        <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
+                            aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
+                            <div class="progress-bar bg-warning" style="width: 83%"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!--  Divclass 4 -->
             <div class="col-lg-3">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center gap-6 mb-0 pb-0">
+                <div class="d-flex flex-column">
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-6">
                                 <span
                                     class="round-48 d-flex align-items-center justify-content-center rounded bg-primary-subtle">
-                                    <span class="fs-6 text-primary">ON</span> </span>
-                                <h6 class="mb-0 fs-3">Heater Status</h6>
+                                    <span class="fs-6 text-primary">ON</span>
+                                </span>
+                                <h6 class="mb-0 fs-4">Heater Status</h6>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body p-3">
-                            <div class="d-flex align-items-center gap-6 mb-0 pb-0">
+                    <div class="card mb-0">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center gap-6">
                                 <span
-                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-primary-subtle">
-                                    <span class="fs-6 text-primary">OFF</span>
+                                    class="round-48 d-flex align-items-center justify-content-center rounded bg-danger-subtle">
+                                    <span class="fs-6 text-danger">OFF</span>
                                 </span>
-                                <h6 class="mb-0 fs-3">Lamp Status</h6>
+                                <h6 class="mb-0 fs-4">Lamp Status</h6>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!--  Row 2 -->
-        {{-- <div class="row">
-            <div class="col-lg-12 d-flex align-items-strech">
-                <div class="card w-100">
-                    <div class="card-body">
-                        {!! $chart->container() !!}
-                    </div>
-                </div>
-            </div>
-        </div> --}}
         <div class="row">
             <div class="col-lg-12 d-flex align-items-strech">
                 <div class="card w-100">
@@ -137,9 +114,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!--  Row 3 -->
-        <div class="row">
             <div class="col-lg-6 d-flex align-items-stretch">
                 <div class="card w-100">
                     <div class="card-body p-4">
@@ -294,10 +268,11 @@
                     class="pe-1 text-primary text-decoration-underline">AdminMart.com</a></p>
         </div>
     </div>
-@endsection()
+@endsection
 
 @push('js')
     <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
     <script>
         $(function() {
             var chart = {
@@ -326,17 +301,6 @@
                         ],
                     },
                 ],
-                // chart: {
-                //     toolbar: {
-                //         show: false,
-                //     },
-                //     type: "bar",
-                //     fontFamily: "inherit",
-                //     foreColor: "#adb0bb",
-                //     height: 270,
-                //     stacked: true,
-                //     offsetX: -15,
-                // },
                 chart: {
                     toolbar: {
                         show: false
@@ -406,6 +370,8 @@
                         "July",
                         "Aug",
                         "Sep",
+                        "Okt",
+                        "Nov",
                     ],
                     labels: {
                         style: {
@@ -428,7 +394,6 @@
                 chart
             );
             chart.render();
-
 
             // -----------------------------------------------------------------------
             // Total Income
@@ -469,6 +434,63 @@
                 },
             };
             new ApexCharts(document.querySelector("#total-income"), customers).render();
+            window.setInterval(inicallbackfunction, 5000)
+        })
+    </script>
+    <script>
+        window.addEventListener('load', function() {
+            const url = 'wss://sa201a17.ala.asia-southeast1.emqxsl.com:8084/mqtt'
+            const options = {
+                clean: true,
+                connectTimeout: 4000,
+                clientId: 'mqtt-panel-iot',
+                username: 'nicky',
+                password: 'nicky',
+                ca: `-----BEGIN CERTIFICATE-----
+            MIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh
+            MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
+            d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD
+            QTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT
+            MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
+            b20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG
+            9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB
+            CSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97
+            nh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt
+            43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P
+            T19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4
+            gdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO
+            BgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR
+            TLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw
+            DQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr
+            hMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg
+            06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF
+            PnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls
+            YSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk
+            CAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=
+            -----END CERTIFICATE-----`
+            }
+            const client = mqtt.connect(url, options)
+            client.on('connect', function() {
+                console.log('Connected')
+                client.subscribe('/temperature', function(err) {
+                    if (!err) {
+                        client.publish('/temperature', 'Hello mqtt')
+                    }
+                })
+            })
+
+            // Untuk mengambil pesan / message dari topic temperature
+            client.on('message', async function(topic, message) {
+                if (topic == '/temperature') {
+                    if (typeof message == 'object') {
+                        console.log(message.toString())
+                        const data = JSON.parse(message);
+                        $('#temp-value').html(data.temperature)
+                        $('#humi-value').html(data.humidity)
+                        $('#light-value').html(data.light_intensity)
+                    }
+                }
+            })
         })
     </script>
 @endpush()

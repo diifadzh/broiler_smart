@@ -1,6 +1,5 @@
 @extends('layout.app')
-@section('title', 'Heater')
-@extends('layout.admin')
+@section('title', 'Heater Config')
 
 @section('heater')
     <div class="container-fluid">
@@ -36,7 +35,8 @@
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label for="customRange2" class="form-label">Example range (Optional for Manual Mode)</label>
-                            <input type="range" class="form-range" min="0" max="5" id="customRange2" disabled>
+                            <input type="range" class="form-range" min="0" max="5" id="customRange2"
+                                disabled>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
     </div>
 @endsection
 
-@push('js')
-<script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
-<script src="{{ asset('js/dashboard.js') }}"></script>
-@endpush()
+{{-- @push('js')
+    <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
+@endpush() --}}
