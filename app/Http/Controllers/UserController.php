@@ -54,7 +54,7 @@ class UserController extends Controller
             return redirect()->route('manage.users.index');
         } catch (\Illuminate\Database\QueryException $e) {
             // catch error if users has duplicate email
-            toastr()->error($e->getMessage());
+            toastr()->error('An error has occurred please try again later.');
             return redirect()->route('manage.users.create');
         }
     }

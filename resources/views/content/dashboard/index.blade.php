@@ -309,7 +309,7 @@
                     toolbar: {
                         show: false
                     },
-                    type: "line", // Change to "line" for a line chart
+                    type: "bar", // Change to "line" for a line chart
                     fontFamily: "inherit",
                     foreColor: "#adb0bb",
                     height: 270,

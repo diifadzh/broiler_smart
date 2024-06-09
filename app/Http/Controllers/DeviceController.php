@@ -53,7 +53,7 @@ class DeviceController extends Controller
             toastr()->success("Device Created Successfully");
             return redirect()->route('manage.devices.index');
         } catch (\Illuminate\Database\QueryException $e) {
-            toastr()->error($e->getMessage());
+            toastr()->error('An error has occurred please try again later.');
             return redirect()->route('manage.devices.create');
         }
     }
