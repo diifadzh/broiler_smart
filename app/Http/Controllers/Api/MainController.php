@@ -8,6 +8,8 @@ use App\Models\Device;
 use App\Models\ConfigHeater;
 use App\Models\ConfigLamp;
 use App\Models\DataSensor;
+use \PhpMqtt\Client\MqttClient;
+use \PhpMqtt\Client\ConnectionSettings;
 
 class MainController extends Controller
 {
@@ -61,4 +63,59 @@ class MainController extends Controller
             ], 400);
         }
     }
+
+    public function publish()
+    {
+        $device_id = (int) request()->get('device_id');
+        $data = (int) request()->get('data');
+        $msg = json_encode([
+            "device_id" > $device_id,
+            "data" > $data
+        ]);
+
+        $pub_topic = env('MQTT_TOPIC_SUB', 'emqx/test');
+        $server = env('MQTT_BROKER', 'broker.emqx.io');
+        $port = env('MQTT_PORT', 1883);
+        $sub_clientId = env('MQTT_CLIENT_ID_SUB', 'my-sub-unique-id-1234567890');
+        $username = env('MQTT_USER', '');
+        $password = env('MQTT_PASSWORD', '');
+        $clean_session = false;
+        $mqtt_version = MqttClient::MQTT_3_1_1;
+
+        $connectionSettings = (new ConnectionSettings)
+            ->setUsername($username)
+            ->setPassword($password)
+            ->setKeepAliveInterval(60);
+
+        $mqtt = new MqttClient(
+            $server,
+            $port,
+            $sub_clientId,
+            $mqtt_version
+        );
+
+        $mqtt->connect($connectionSettings, $clean_session);
+        printf("Publishser client connected!\n");
+
+        $mqtt->publish($pub_topic, $msg, 0, true);
+        $mqtt->disconnect();
+
+        $dataSensor = new DataSensor();
+        $dataSensor->device_id = $device_id;
+        $dataSensor->data = $data;
+        $dataSensor->save();
+    }
+
+    // if (Device :where('id', $device_id) >exists()) {
+    // $device = Device :find($device_id);
+    // $device >current_value = $data;
+    // $device >save();
+    // }
+    // return view('device', [
+    // "title" -> "device",
+    // "device" -> Device ::find($device_id),
+    // "data" ->
+    // Data ::where('device_id',$device_id) ->orderBy('created_at',
+    // 'DESC') ->get()
+    // ]);
 }

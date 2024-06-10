@@ -14,7 +14,7 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <a class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{ asset('images/logos/logo2.png') }}" alt="" width="180px">
+                                    <img src="{{ asset('images/logos/logo1.png') }}" alt="" width="80px">
                                 </a>
                                 <p class="text-center">Enter Your User Account</p>
                                 @error('auth')

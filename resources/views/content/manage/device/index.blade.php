@@ -39,5 +39,10 @@
                 </table>
             </div>
         </div>
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; IoT Panel by Dio Fadli Saputro</span>
+            </div>
+        </div>
     </div>
 @endsection

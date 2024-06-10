@@ -6,7 +6,7 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="card-title fw-semibold mb-0">Control Heater</h5>
-                <a href="./create" class="btn btn-primary">Create</a>
+                <a href="{{ route('config.create') }}" class="btn btn-primary">Create</a>
             </div>
             <div class="card-body">
                 <div class="d-flex justify-content-center">

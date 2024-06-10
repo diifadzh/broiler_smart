@@ -16,7 +16,7 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-6">
                             <h5 class="mb-0 fw-medium text-center large-temp-value"><span
-                                    id="temp-value">{{ $dataSensor->first()->temperature ?? 0 }}</span> °C</h5>
+                                    id="temp-value">{{ $dataSensor->first()->temperature ?? 0 }}</span>°C</h5>
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
@@ -102,6 +102,7 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                            {{-- <script src="https://code.highcharts.com/highcharts.js"></script> --}}
                             <div class="mb-3 mb-sm-0">
                                 <h5 class="card-title fw-semibold">Sensor Statistik</h5>
                             </div>
@@ -267,56 +268,66 @@
                 </div>
             </div>
         </div>
-        <div class="py-6 px-6 text-center">
+        <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+                <span>Copyright &copy; IoT Panel by Dio Fadli Saputro</span>
+            </div>
+        </div>
+        {{-- <div class="py-6 px-6 text-center">
             <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank"
                     class="pe-1 text-primary text-decoration-underline">AdminMart.com</a></p>
-        </div>
+        </div> --}}
     </div>
 @endsection
 
 @push('js')
     <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.1/apexcharts.min.js"
+        integrity="sha512-qiVW4rNFHFQm0jHli5vkdEwP4GPSzCSp85J7JRHdgzuuaTg31tTMC8+AHdEC5cmyMFDByX639todnt6cxEc1lQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.1/apexcharts.min.css"
+        integrity="sha512-LJwWs3xMbOQNFpWVlpR0Dv3ND8TQgLzvBJsfjMcPKax6VJQ8p9WnQvB5J5Lb9/0D31cbnNsh9x5Lz6+mzxgw1g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <script>
         $(function() {
             var chart = {
                 series: [{
                         name: "Temperature",
-                        data: [
+                        data: [ // Replace with actual data from $dataSensor
                             @foreach ($dataSensor as $item)
-                                {{ $item->temperature . ',' }}
+                                {{ $item->temperature }},
                             @endforeach
-                        ],
+                        ]
                     },
                     {
                         name: "Humidity",
-                        data: [
+                        data: [ // Replace with actual data from $dataSensor
                             @foreach ($dataSensor as $item)
-                                {{ $item->humidity . ',' }}
+                                {{ $item->humidity }},
                             @endforeach
-                        ],
+                        ]
                     },
                     {
                         name: "Light Intensity",
-                        data: [
+                        data: [ // Replace with actual data from $dataSensor
                             @foreach ($dataSensor as $item)
-                                {{ $item->light_intensity . ',' }}
+                                {{ $item->light_intensity }},
                             @endforeach
-                        ],
-                    },
+                        ]
+                    }
                 ],
                 chart: {
                     toolbar: {
                         show: false
                     },
-                    type: "bar", // Change to "line" for a line chart
+                    type: "line",
                     fontFamily: "inherit",
                     foreColor: "#adb0bb",
                     height: 270,
-                    stacked: false, // Set to false for separate lines
+                    stacked: false,
                     offsetX: -15
                 },
-
                 colors: ["var(--bs-danger)", "var(--bs-secondary)", "var(--bs-warning)"],
                 plotOptions: {
                     bar: {
@@ -325,46 +336,46 @@
                         columnWidth: "15%",
                         borderRadius: [6],
                         borderRadiusApplication: "end",
-                        borderRadiusWhenStacked: "all",
-                    },
+                        borderRadiusWhenStacked: "all"
+                    }
                 },
                 dataLabels: {
-                    enabled: false,
+                    enabled: false
                 },
                 legend: {
-                    show: false,
+                    show: false
                 },
                 grid: {
                     show: true,
                     padding: {
                         top: 0,
                         bottom: 0,
-                        right: 0,
+                        right: 0
                     },
                     borderColor: "rgba(0,0,0,0.05)",
                     xaxis: {
                         lines: {
-                            show: true,
-                        },
+                            show: true
+                        }
                     },
                     yaxis: {
                         lines: {
-                            show: true,
-                        },
-                    },
+                            show: true
+                        }
+                    }
                 },
                 yaxis: {
                     min: -5,
-                    max: 5,
+                    max: 5
                 },
                 xaxis: {
                     axisBorder: {
-                        show: false,
+                        show: false
                     },
                     axisTicks: {
-                        show: false,
+                        show: false
                     },
-                    categories: [
+                    categories: [ // Remove these if you don't want fixed labels
                         "Jan",
                         "Feb",
                         "Mar",
@@ -376,28 +387,34 @@
                         "Sep",
                         "Okt",
                         "Nov",
+                        "Dec"
                     ],
                     labels: {
                         style: {
                             fontSize: "13px",
                             colors: "#adb0bb",
                             fontWeight: "400"
-                        },
-                    },
+                        }
+                    }
                 },
                 yaxis: {
-                    tickAmount: 4,
+                    tickAmount: 4
                 },
                 tooltip: {
-                    theme: "dark",
-                },
+                    theme: "dark"
+                }
             };
 
-            var chart = new ApexCharts(
-                document.querySelector("#revenue-forecast"),
-                chart
-            );
+            var chart = new ApexCharts(document.querySelector("#revenue-forecast"), chart);
             chart.render();
+
+            // call it again after one second
+            setTimeout(sensorData, 5000);
+
+            // setInterval(async () => {
+            //     const sensorData = await fetchSensorData();
+            //     updateChartData(sensorData);
+            // }, 5000); // Update every 5 seconds
 
             // -----------------------------------------------------------------------
             // Total Income
@@ -438,10 +455,10 @@
                 },
             };
             new ApexCharts(document.querySelector("#total-income"), customers).render();
-            window.setInterval(inicallbackfunction, 5000)
+
         })
     </script>
-    <script>
+    {{-- <script>
         window.addEventListener('load', function() {
             const url = 'wss://sa201a17.ala.asia-southeast1.emqxsl.com:8084/mqtt'
             const options = {
@@ -496,5 +513,59 @@
                 }
             })
         })
-    </script>
+    </script> --}}
+    {{-- <script>
+        let chart; // global
+        let url = "{{ url('/') }}";
+
+        async function requestData() {
+            const result = await fetch(url + '/api/temperature');
+            if (result.ok) {
+                const data = await result.json();
+
+
+                const [date, value] = [data.data[0].created_at, data.data[0].temperature];
+                const point = [new Date(date).getTime(), parseFloat(value)];
+                const series = chart.series[0],
+                    shift = series.data.length > 20; // shift if the series is longer than 20
+
+                // add the point
+                chart.series[0].addPoint(point, true, shift);
+                // call it again after one second
+                setTimeout(requestData, 1000);
+            }
+        }
+
+        window.addEventListener('load', function() {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    defaultSeriesType: 'spline',
+                    events: {
+                        load: requestData
+                    }
+                },
+                title: {
+                    text: 'Data temperature'
+                },
+                xAxis: {
+                    type: 'datetime',
+                    tickPixelInterval: 150,
+                    maxZoom: 20 * 1000
+                },
+                yAxis: {
+                    minPadding: 0.2,
+                    maxPadding: 0.2,
+                    title: {
+                        text: 'Value',
+                        margin: 80
+                    }
+                },
+                series: [{
+                    name: 'Celcius',
+                    data: []
+                }]
+            });
+        });
+    </script> --}}
 @endpush()

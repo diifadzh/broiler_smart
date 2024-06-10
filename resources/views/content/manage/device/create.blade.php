@@ -45,6 +45,7 @@
                         @enderror
                     </div>
                     <div class="d-flex justify-content-end">
+                        <a href="" class="btn btn-primary me-2">Back</a>
                         <button type="submit" class="btn btn-primary d-flex align-items-center">
                             <iconify-icon icon="solar:add-square-bold" class="me-2" style="font-size:18px"></iconify-icon>
                             Add Device</button>
