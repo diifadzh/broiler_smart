@@ -3,7 +3,7 @@
 @section('title', 'Dashboard | Broiler Guard')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color: blue;">
         <div class="row mb-4">
             <div class="col-lg-3">
                 <div class="card h-100">

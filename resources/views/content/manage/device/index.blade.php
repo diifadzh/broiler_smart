@@ -3,7 +3,7 @@
 @section('title', 'Manage Device | Broiler Guard')
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container-fluid" style="background-color: blue;">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">

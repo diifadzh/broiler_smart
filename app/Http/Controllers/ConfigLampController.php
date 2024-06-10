@@ -11,7 +11,7 @@ class ConfigLampController extends Controller
      */
     public function index()
     {
-        //
+        return view('content.config.lamp');
     }
 
     /**
