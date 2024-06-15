@@ -1,9 +1,9 @@
 @extends('layout.admin')
 
-@section('title', 'Manage Device | Broiler Guard')
+@section('title', 'Device')
 
 @section('content')
-    <div class="container-fluid" style="background-color: blue;">
+    <div class="container-fluid">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -39,10 +39,9 @@
                 </table>
             </div>
         </div>
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; IoT Panel by Dio Fadli Saputro</span>
-            </div>
+        <div class="py-6 px-6 text-center">
+            <p class="mb-0 fs-4">Design and Developed by <a href="" target="_blank"
+                    class="pe-1 text-primary text-decoration-underline">Dio Fadli Saputro</a></p>
         </div>
     </div>
 @endsection

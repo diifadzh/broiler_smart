@@ -8,6 +8,7 @@ use App\Models\Device;
 use App\Models\ConfigHeater;
 use App\Models\ConfigLamp;
 use App\Models\DataSensor;
+use PhpMqtt\Client\Facades\MQTT;
 use \PhpMqtt\Client\MqttClient;
 use \PhpMqtt\Client\ConnectionSettings;
 
@@ -51,6 +52,13 @@ class MainController extends Controller
                 'humidity' => $request->humidity,
                 'light_intensity' => $request->light_intensity,
             ]);
+            MQTT::publish('/data', json_encode([
+                'device_id' => $deviceId,
+                'temperature' => $request->temperature,
+                'humidity' => $request->humidity,
+                'light_intensity' => $request->light_intensity,
+                'created_at' => $dataSensor->created_at
+            ]));
             return response()->json([
                 "status" => "Success",
                 "message" => "Data successfuly created",
@@ -105,17 +113,4 @@ class MainController extends Controller
         $dataSensor->data = $data;
         $dataSensor->save();
     }
-
-    // if (Device :where('id', $device_id) >exists()) {
-    // $device = Device :find($device_id);
-    // $device >current_value = $data;
-    // $device >save();
-    // }
-    // return view('device', [
-    // "title" -> "device",
-    // "device" -> Device ::find($device_id),
-    // "data" ->
-    // Data ::where('device_id',$device_id) ->orderBy('created_at',
-    // 'DESC') ->get()
-    // ]);
 }

@@ -1,9 +1,9 @@
 @extends('layout.admin')
 
-@section('title', 'Dashboard | Broiler Guard')
+@section('title', 'Dashboard')
 
 @section('content')
-    <div class="container-fluid" style="background-color: blue;">
+    <div class="container-fluid">
         <div class="row mb-4">
             <div class="col-lg-3">
                 <div class="card h-100">
@@ -16,11 +16,11 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-center mb-6">
                             <h5 class="mb-0 fw-medium text-center large-temp-value"><span
-                                    id="temp-value">{{ $dataSensor->first()->temperature ?? 0 }}</span>°C</h5>
+                                    id="temp-value">{{ $dataSensor->first()->temperature ?? 0 }}</span> °C</h5>
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                            <div class="progress-bar bg-danger"
+                            <div class="progress-bar bg-danger" id="temp-bar"
                                 style="width: {{ $dataSensor->first()->temperature ?? 0 }}%"></div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                            <div class="progress-bar bg-secondary"
+                            <div class="progress-bar bg-secondary" id="humi-bar"
                                 style="width: {{ $dataSensor->first()->humidity ?? 0 }}%"></div>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="progress" role="progressbar" aria-label="Basic example" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100" style="height: 7px;">
-                            <div class="progress-bar bg-warning"
+                            <div class="progress-bar bg-warning" id="light-bar"
                                 style="width: {{ $dataSensor->first()->light_intensity ?? 0 }}%"></div>
                         </div>
                     </div>
@@ -102,20 +102,11 @@
                 <div class="card w-100">
                     <div class="card-body">
                         <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                            {{-- <script src="https://code.highcharts.com/highcharts.js"></script> --}}
                             <div class="mb-3 mb-sm-0">
                                 <h5 class="card-title fw-semibold">Sensor Statistik</h5>
                             </div>
-                            <div>
-                                <select class="form-select">
-                                    <option value="1">March 2024</option>
-                                    <option value="2">April 2024</option>
-                                    <option value="3">May 2024</option>
-                                    <option value="4">June 2024</option>
-                                </select>
-                            </div>
                         </div>
-                        <div id="revenue-forecast"></div>
+                        <div id="container"></div>
                     </div>
                 </div>
             </div>
@@ -268,304 +259,168 @@
                 </div>
             </div>
         </div>
-        <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-                <span>Copyright &copy; IoT Panel by Dio Fadli Saputro</span>
-            </div>
+        <div class="py-6 px-6 text-center">
+            <button onclick="updateSeries()">Update Data</button>
+            <p class="mb-0 fs-4">Design and Developed by <a href="" target="_blank"
+                    class="pe-1 text-primary text-decoration-underline">Dio Fadli Saputro</a></p>
         </div>
-        {{-- <div class="py-6 px-6 text-center">
-            <p class="mb-0 fs-4">Design and Developed by <a href="https://adminmart.com/" target="_blank"
-                    class="pe-1 text-primary text-decoration-underline">AdminMart.com</a></p>
-        </div> --}}
     </div>
 @endsection
 
 @push('js')
     <script src="{{ asset('libs/apexcharts/dist/apexcharts.min.js') }}"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.1/apexcharts.min.js"
-        integrity="sha512-qiVW4rNFHFQm0jHli5vkdEwP4GPSzCSp85J7JRHdgzuuaTg31tTMC8+AHdEC5cmyMFDByX639todnt6cxEc1lQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.49.1/apexcharts.min.css"
-        integrity="sha512-LJwWs3xMbOQNFpWVlpR0Dv3ND8TQgLzvBJsfjMcPKax6VJQ8p9WnQvB5J5Lb9/0D31cbnNsh9x5Lz6+mzxgw1g=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
     <script>
         $(function() {
-            var chart = {
-                series: [{
-                        name: "Temperature",
-                        data: [ // Replace with actual data from $dataSensor
-                            @foreach ($dataSensor as $item)
-                                {{ $item->temperature }},
-                            @endforeach
-                        ]
-                    },
-                    {
-                        name: "Humidity",
-                        data: [ // Replace with actual data from $dataSensor
-                            @foreach ($dataSensor as $item)
-                                {{ $item->humidity }},
-                            @endforeach
-                        ]
-                    },
-                    {
-                        name: "Light Intensity",
-                        data: [ // Replace with actual data from $dataSensor
-                            @foreach ($dataSensor as $item)
-                                {{ $item->light_intensity }},
-                            @endforeach
-                        ]
-                    }
-                ],
-                chart: {
-                    toolbar: {
-                        show: false
-                    },
-                    type: "line",
-                    fontFamily: "inherit",
-                    foreColor: "#adb0bb",
-                    height: 270,
-                    stacked: false,
-                    offsetX: -15
-                },
-                colors: ["var(--bs-danger)", "var(--bs-secondary)", "var(--bs-warning)"],
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        barHeight: "60%",
-                        columnWidth: "15%",
-                        borderRadius: [6],
-                        borderRadiusApplication: "end",
-                        borderRadiusWhenStacked: "all"
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                legend: {
-                    show: false
-                },
-                grid: {
-                    show: true,
-                    padding: {
-                        top: 0,
-                        bottom: 0,
-                        right: 0
-                    },
-                    borderColor: "rgba(0,0,0,0.05)",
-                    xaxis: {
-                        lines: {
-                            show: true
-                        }
-                    },
-                    yaxis: {
-                        lines: {
-                            show: true
-                        }
-                    }
-                },
-                yaxis: {
-                    min: -5,
-                    max: 5
-                },
-                xaxis: {
-                    axisBorder: {
-                        show: false
-                    },
-                    axisTicks: {
-                        show: false
-                    },
-                    categories: [ // Remove these if you don't want fixed labels
-                        "Jan",
-                        "Feb",
-                        "Mar",
-                        "Apr",
-                        "May",
-                        "Jun",
-                        "July",
-                        "Aug",
-                        "Sep",
-                        "Okt",
-                        "Nov",
-                        "Dec"
-                    ],
-                    labels: {
+            let chart; // global
+            /**
+             * Request data from the server, add it to the graph and set a timeout to
+             * request again
+             */
+            async function requestData(json) {
+                const data = JSON.parse(json)
+                const value = data.temperature;
+                const value1 = data.humidity;
+                const value2 = data.light_intensity;
+                const timestamp = data.created_at;
+                const point = [new Date(timestamp).getTime(), parseFloat(value)];
+                const point1 = [new Date(timestamp).getTime(), parseFloat(value1)];
+                const point2 = [new Date(timestamp).getTime(), parseFloat(value2)];
+                const series = chart.series[0],
+                    shift = series.data.length > 20; // shift if the series is
+                const series1 = chart.series[0],
+                    shift1 = series.data.length > 20; // shift if the series is
+                const series2 = chart.series[0],
+                    shift2 = series.data.length > 20; // shift if the series is
+
+                // add the point
+                chart.series[0].addPoint(point, true, shift);
+                chart.series[1].addPoint(point1, true, shift1);
+                chart.series[2].addPoint(point2, true, shift2);
+            }
+
+            window.addEventListener('load', function() {
+                setInterval(() => {
+                    let temperature = (Math.random() * (30 - 15) + 15).toFixed(1);
+                    let humidity = (Math.random() * (70 - 30) + 30).toFixed(1);
+                    let lightIntensity = (Math.random() * (100 - 0) + 0).toFixed(1);
+                    $.post("{{ url('/api/data/A001') }}", {
+                        temperature: temperature,
+                        humidity: humidity,
+                        light_intensity: lightIntensity
+                    }, function(response) {
+                        console.log(response)
+                    });
+                }, 5000);
+                chart = new Highcharts.Chart({
+                    chart: {
+                        renderTo: 'container',
+                        type: 'areaspline',
+                        events: {
+                            load: requestData
+                        },
                         style: {
-                            fontSize: "13px",
-                            colors: "#adb0bb",
-                            fontWeight: "400"
+                            fontFamily: 'inherit',
+                        },
+                        animation: {
+                            duration: 200
+                        },
+                        height: 300,
+                    },
+                    title: {
+                        text: null
+                    },
+                    xAxis: {
+                        type: 'datetime',
+                        tickPixelInterval: 150,
+                        maxZoom: 20 * 1000,
+                        labels: {
+                            style: {
+                                color: '#adb0bb'
+                            }
                         }
-                    }
-                },
-                yaxis: {
-                    tickAmount: 4
-                },
-                tooltip: {
-                    theme: "dark"
-                }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#revenue-forecast"), chart);
-            chart.render();
-
-            // call it again after one second
-            setTimeout(sensorData, 5000);
-
-            // setInterval(async () => {
-            //     const sensorData = await fetchSensorData();
-            //     updateChartData(sensorData);
-            // }, 5000); // Update every 5 seconds
-
-            // -----------------------------------------------------------------------
-            // Total Income
-            // -----------------------------------------------------------------------
-            var customers = {
-                chart: {
-                    id: "sparkline3",
-                    type: "line",
-                    fontFamily: "inherit",
-                    foreColor: "#adb0bb",
-                    height: 60,
-                    sparkline: {
-                        enabled: true,
                     },
-                    group: "sparklines",
-                },
-                series: [{
-                    name: "Income",
-                    color: "var(--bs-danger)",
-                    data: [30, 25, 35, 20, 30, 40],
-                }, ],
-                stroke: {
-                    curve: "smooth",
-                    width: 2,
-                },
-                markers: {
-                    size: 0,
-                },
-                tooltip: {
-                    theme: "dark",
-                    fixed: {
-                        enabled: true,
-                        position: "right",
+                    yAxis: {
+                        title: null,
+                        labels: {
+                            style: {
+                                color: '#adb0bb'
+                            }
+                        }
                     },
-                    x: {
-                        show: false,
-                    },
-                },
-            };
-            new ApexCharts(document.querySelector("#total-income"), customers).render();
-
+                    series: [{
+                        name: 'Temperature',
+                        color: 'var(--bs-danger)',
+                        fillOpacity: 0.1,
+                    }, {
+                        name: 'Humidity',
+                        color: 'var(--bs-secondary)',
+                        fillOpacity: 0.1,
+                    }, {
+                        name: 'Light Intensity',
+                        color: 'var(--bs-primary)',
+                        fillOpacity: 0.1,
+                    }, ]
+                });
+            });
         })
     </script>
-    {{-- <script>
+    <script>
         window.addEventListener('load', function() {
-            const url = 'wss://sa201a17.ala.asia-southeast1.emqxsl.com:8084/mqtt'
+            const url = 'https://l984f911.ala.us-east-1.emqxsl.com:8443/api/v5'
             const options = {
                 clean: true,
                 connectTimeout: 4000,
-                clientId: 'mqtt-panel-iot',
-                username: 'nicky',
-                password: 'nicky',
+                clientId: 'mqttx_diifadzh',
+                username: 'dio',
+                password: 'dio',
                 ca: `-----BEGIN CERTIFICATE-----
-            MIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh
-            MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
-            d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD
-            QTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT
-            MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
-            b20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG
-            9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB
-            CSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97
-            nh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt
-            43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P
-            T19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4
-            gdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO
-            BgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR
-            TLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw
-            DQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr
-            hMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg
-            06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF
-            PnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls
-            YSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk
-            CAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=
-            -----END CERTIFICATE-----`
+                    MIIDrzCCApegAwIBAgIQCDvgVpBCRrGhdWrJWZHHSjANBgkqhkiG9w0BAQUFADBh
+                    MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3
+                    d3cuZGlnaWNlcnQuY29tMSAwHgYDVQQDExdEaWdpQ2VydCBHbG9iYWwgUm9vdCBD
+                    QTAeFw0wNjExMTAwMDAwMDBaFw0zMTExMTAwMDAwMDBaMGExCzAJBgNVBAYTAlVT
+                    MRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5j
+                    b20xIDAeBgNVBAMTF0RpZ2lDZXJ0IEdsb2JhbCBSb290IENBMIIBIjANBgkqhkiG
+                    9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4jvhEXLeqKTTo1eqUKKPC3eQyaKl7hLOllsB
+                    CSDMAZOnTjC3U/dDxGkAV53ijSLdhwZAAIEJzs4bg7/fzTtxRuLWZscFs3YnFo97
+                    nh6Vfe63SKMI2tavegw5BmV/Sl0fvBf4q77uKNd0f3p4mVmFaG5cIzJLv07A6Fpt
+                    43C/dxC//AH2hdmoRBBYMql1GNXRor5H4idq9Joz+EkIYIvUX7Q6hL+hqkpMfT7P
+                    T19sdl6gSzeRntwi5m3OFBqOasv+zbMUZBfHWymeMr/y7vrTC0LUq7dBMtoM1O/4
+                    gdW7jVg/tRvoSSiicNoxBN33shbyTApOB6jtSj1etX+jkMOvJwIDAQABo2MwYTAO
+                    BgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUA95QNVbR
+                    TLtm8KPiGxvDl7I90VUwHwYDVR0jBBgwFoAUA95QNVbRTLtm8KPiGxvDl7I90VUw
+                    DQYJKoZIhvcNAQEFBQADggEBAMucN6pIExIK+t1EnE9SsPTfrgT1eXkIoyQY/Esr
+                    hMAtudXH/vTBH1jLuG2cenTnmCmrEbXjcKChzUyImZOMkXDiqw8cvpOp/2PV5Adg
+                    06O/nVsJ8dWO41P0jmP6P6fbtGbfYmbW0W5BjfIttep3Sp+dWOIrWcBAI+0tKIJF
+                    PnlUkiaY4IBIqDfv8NZ5YBberOgOzW6sRBc4L0na4UU+Krk2U886UAb3LujEV0ls
+                    YSEY1QSteDwsOoBrp+uvFRTp2InBuThs4pFsiv9kuXclVzDAGySj4dzp30d8tbQk
+                    CAUw7C29C79Fv1C5qfPrmAESrciIxpg0X40KPMbp1ZWVbd4=
+                    -----END CERTIFICATE-----`
             }
             const client = mqtt.connect(url, options)
             client.on('connect', function() {
                 console.log('Connected')
-                client.subscribe('/temperature', function(err) {
-                    if (!err) {
-                        client.publish('/temperature', 'Hello mqtt')
-                    }
+                client.subscribe('/data', function(err) {
+                    console.log('subscribe to /data')
                 })
             })
-
             // Untuk mengambil pesan / message dari topic temperature
             client.on('message', async function(topic, message) {
-                if (topic == '/temperature') {
+                if (topic == '/data') {
                     if (typeof message == 'object') {
                         console.log(message.toString())
                         const data = JSON.parse(message);
                         $('#temp-value').html(data.temperature)
                         $('#humi-value').html(data.humidity)
                         $('#light-value').html(data.light_intensity)
+                        $('#temp-bar').css('width', `${data.temperature}%`)
+                        $('#humi-bar').css('width', `${data.humidity}%`)
+                        $('#light-bar').css('width', `${data.light_intensity}%`)
+                        await requestData(message)
                     }
                 }
             })
         })
-    </script> --}}
-    {{-- <script>
-        let chart; // global
-        let url = "{{ url('/') }}";
-
-        async function requestData() {
-            const result = await fetch(url + '/api/temperature');
-            if (result.ok) {
-                const data = await result.json();
-
-
-                const [date, value] = [data.data[0].created_at, data.data[0].temperature];
-                const point = [new Date(date).getTime(), parseFloat(value)];
-                const series = chart.series[0],
-                    shift = series.data.length > 20; // shift if the series is longer than 20
-
-                // add the point
-                chart.series[0].addPoint(point, true, shift);
-                // call it again after one second
-                setTimeout(requestData, 1000);
-            }
-        }
-
-        window.addEventListener('load', function() {
-            chart = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'container',
-                    defaultSeriesType: 'spline',
-                    events: {
-                        load: requestData
-                    }
-                },
-                title: {
-                    text: 'Data temperature'
-                },
-                xAxis: {
-                    type: 'datetime',
-                    tickPixelInterval: 150,
-                    maxZoom: 20 * 1000
-                },
-                yAxis: {
-                    minPadding: 0.2,
-                    maxPadding: 0.2,
-                    title: {
-                        text: 'Value',
-                        margin: 80
-                    }
-                },
-                series: [{
-                    name: 'Celcius',
-                    data: []
-                }]
-            });
-        });
-    </script> --}}
-@endpush()
+    </script>
+@endpush
