@@ -36,6 +36,9 @@ class DeviceController extends Controller
                 "id" => ['required', 'max:6'],
                 "user_id" => ['required'],
                 "name" => ['required'],
+                "address" => ['required'],
+                "phone_number" => ['required'],
+                "position" => ['required']
             ]);
 
             // Add Device Data
@@ -43,6 +46,9 @@ class DeviceController extends Controller
             $device->id = $request->id;
             $device->user_id = $request->user_id;
             $device->name = $request->name;
+            $device->address = $request->address;
+            $device->phone_number = $request->phone_number;
+            $device->position = $request->position;
             $device->save();
 
             // When add device auto create config heater
@@ -88,6 +94,10 @@ class DeviceController extends Controller
             $device->id = $request->id ?? $device->id;
             $device->user_id = $request->user_id ?? $device->user_id;
             $device->name = $request->name ?? $device->name;
+            $device->address = $request->address ?? $device->address;
+            $device->phone_number = $request->phone_number ?? $device->phone_number;
+            $device->gender = $request->gender ?? $device->gender;
+            $device->position = $request->position ?? $device->position;
             $device->save();
 
             toastr()->success("Device Updated Successfully");

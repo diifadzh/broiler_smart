@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'Manage User | Broiler Guard')
+@section('title', 'Create User | SIKAP')
 
 @section('content')
     <div class="container-fluid">
@@ -61,6 +61,7 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-end">
+                        <a href="{{ url('manage/users') }}" class="btn btn-danger me-2">Back</a>
                         <button type="submit" class="btn btn-primary d-flex align-items-center">
                             <iconify-icon icon="solar:user-plus-bold" class="me-2" style="font-size:18px"></iconify-icon>
                             Add User</button>

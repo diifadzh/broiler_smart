@@ -19,6 +19,7 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'dashboard']);
         Permission::create(['name' => 'users']);
         Permission::create(['name' => 'device']);
+        Permission::create(['name' => 'employee']);
         Permission::create(['name' => 'heater']);
         Permission::create(['name' => 'lamp']);
     }

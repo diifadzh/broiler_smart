@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('devices', function (Blueprint $table) {
-            $table->string('id'); // kolom id dengan tipe varchar
-            $table->primary('id'); // define id menjadi primary key
-            $table->foreignId('user_id')->constrained();
+        Schema::create('employees', function (Blueprint $table) {
+            $table->id();
             $table->string('name');
-            $table->string('address')->nullable();
+            $table->string('email')->unique();
             $table->string('phone_number')->nullable();
+            $table->date('date_of_birth')->nullable();
+            $table->string('address')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->string('position')->nullable();
-            $table->timestamps(); // created_at dan updated_at
+            $table->string('position');
+            $table->date('hire_date')->nullable();
+            $table->decimal('salary', 10, 2)->nullable();
+            $table->timestamps();
         });
     }
 
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('devices');
+        Schema::dropIfExists('employees');
     }
 };

@@ -18,7 +18,11 @@ class DeviceSeeder extends Seeder
         Device::create([
             'id' => 'A001',
             'user_id' => 1,
-            'name' => 'Kandang Ayam umur 1 - 7 hari'
+            'name' => 'Kandang Ayam umur 1 - 7 hari',
+            'address' => 'Brebes',
+            'phone_number' => '087712345678',
+            'gender' => 'Male',
+            'position' => 'Pekerja',
         ]);
         ConfigHeater::create([
             'device_id' => 'A001',

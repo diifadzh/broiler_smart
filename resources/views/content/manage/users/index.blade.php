@@ -1,6 +1,6 @@
 @extends('layout.admin')
 
-@section('title', 'User')
+@section('title', 'User | SIKAP')
 
 @section('content')
     <div class="container-fluid">
@@ -39,10 +39,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-        <div class="py-6 px-6 text-center">
-            <p class="mb-0 fs-4">Design and Developed by <a href="" target="_blank"
-                    class="pe-1 text-primary text-decoration-underline">Dio Fadli Saputro</a></p>
         </div>
     </div>
 @endsection

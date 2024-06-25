@@ -12,4 +12,9 @@ class DashboardController extends Controller
         $dataSensor = DataSensor::orderBy('created_at', 'desc')->get();
         return view('content.dashboard.index', compact('dataSensor'));
     }
+
+    public function detail()
+    {
+        return view('content.dashboard.detail');
+    }
 }

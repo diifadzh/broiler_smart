@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EmployeeController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -31,8 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->prefix('manage')->name('manage.')->group(function () {
         Route::resource('users', UserController::class);
         Route::resource('devices', DeviceController::class);
+        Route::resource('employee', EmployeeController::class);
     });
 });
 
-// Route :post( '/publish', [DataController :class, 'publish']
-// ) >name('publish');
+Route::get('/detail', [DashboardController::class, 'detail'])->name('detail');
+
+// Route::post( '/publish', [DataController :class, 'publish']
+// )->name('publish');

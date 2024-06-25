@@ -5,7 +5,6 @@
 @include('layout.skeleton.head')
 
 <body>
-    <!--  Body Wrapper -->
     @yield('body')
     @include('layout.skeleton.script')
     @yield('script')

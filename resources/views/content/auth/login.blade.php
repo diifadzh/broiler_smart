@@ -1,9 +1,8 @@
 @extends('layout.app')
 
-@section('title', 'Login')
+@section('title', 'Login | SIKAP')
 
 @section('body')
-    <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed">
         <div
@@ -14,9 +13,9 @@
                         <div class="card mb-0">
                             <div class="card-body">
                                 <a class="text-nowrap logo-img text-center d-block py-3 w-100">
-                                    <img src="{{ asset('images/logos/logo1.png') }}" alt="" width="80px">
+                                    <img src="{{ asset('images/logos/logo4.png') }}" alt="" width="200px">
                                 </a>
-                                <p class="text-center">Enter Your User Account</p>
+                                <p class="text-center"> User Account</p>
                                 @error('auth')
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         {{ $message }}
@@ -57,5 +56,4 @@
             </div>
         </div>
     </div>
-    </body>
 @endsection
